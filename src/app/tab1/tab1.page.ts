@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {MediaCapture} from '@awesome-cordova-plugins/media-capture/ngx';
+import {CaptureError, MediaFile} from '@awesome-cordova-plugins/media-capture/ngx';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +9,20 @@ import { Component } from '@angular/core';
 })
 export class Tab1Page {
 
-  constructor() {}
+  constructor(
+    private mediaCapture: MediaCapture
+  ) {}
+
+  recordVideo() {
+    this.mediaCapture.captureVideo().then(
+      (data: MediaFile[]) => {
+        if (data.length > 0) {
+          // this.copyFileToLocalDir(data[0].fullPath);
+          alert(data[0].fullPath);
+        }
+      },
+      (err: CaptureError) => console.error(err)
+    );
+  }
 
 }
